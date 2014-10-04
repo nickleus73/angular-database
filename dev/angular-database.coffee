@@ -2,19 +2,37 @@ database = angular.module 'ngDatabase', Array
 
 database.factory '$database', Array ->
     new class Database
-        sql: null
+        sql: {}
 
         createTable: ->
             return
 
-        select: ->
-            return
+        select: (param) ->
+            if typeof param is 'undefined'
+                param = ['*']
+
+            @sql['SELECT'] = param
+
+            @
 
         insert: ->
-            return
+            @
 
         update: ->
-            return
+            @
 
-        where: ->
+        where: (field, value, operator) ->
+            if typeof operator is 'undefined'
+                operator = '='
+
+            @sql['WHERE'] = field + ' ' + operator + ' \'' + value + '\''
+
+            @
+
+        from: (param) ->
+            @sql['FROM'] = param
+
+            @
+
+        exec: ->
             return
