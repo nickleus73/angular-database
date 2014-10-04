@@ -37,11 +37,13 @@ module.exports = function(grunt) {
                 options: {
                     dir: './',
                     glob: [
-                        'dev//*'
+                        'dev/*',
+                        'dev/test/*'
                     ],
                     resolvers: [{
                         files: [
-                            'dev/*.coffee'
+                            'dev/*.coffee',
+                            'dev/tests/*.coffee'
                         ],
                         tasks: ['coffee', 'uglify']
                     }]
