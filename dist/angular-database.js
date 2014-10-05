@@ -11,7 +11,7 @@ database.factory('$database', Array(function() {
 
     Database.prototype.req = null;
 
-    Database.prototype.order_command = ['INSERT', 'UPDATE', 'SELECT', 'FROM', 'WHERE', 'AND WHERE', 'OR WHERE'];
+    Database.prototype.order_command = ['CREATE', 'INSERT', 'UPDATE', 'SELECT', 'FROM', 'WHERE', 'AND WHERE', 'OR WHERE'];
 
     Database.prototype.adapter = {};
 
@@ -19,7 +19,16 @@ database.factory('$database', Array(function() {
       this.adapter = adapter;
     };
 
-    Database.prototype.createTable = function() {};
+    Database.prototype.createTable = function(table, cols) {
+      if (typeof table === 'undefined' || typeof cols === 'undefined') {
+        return;
+      }
+      this.sql['CREATE'] = {
+        'TABLE': table,
+        'COLS': cols
+      };
+      return this;
+    };
 
     Database.prototype.select = function(param) {
       if (typeof param === 'undefined') {
@@ -113,6 +122,9 @@ database.factory('$database', Array(function() {
             break;
           case 'UPDATE':
             this._update();
+            break;
+          case 'CREATE':
+            this._createTable();
         }
       }
       this.req += ';';
@@ -164,6 +176,17 @@ database.factory('$database', Array(function() {
       update = this.sql['UPDATE'];
       params = update['PARAMS'].join(', ');
       this.req += "UPDATE `" + update['TABLE'] + "` SET " + params;
+    };
+
+    Database.prototype._createTable = function() {
+      var cols, create;
+      if (typeof this.sql['CREATE'] === 'undefined') {
+        return;
+      }
+      this.req = '';
+      create = this.sql['CREATE'];
+      cols = create['COLS'].join(', ');
+      this.req += "CREATE TABLE IF NOT EXISTS `" + create['TABLE'] + "` (" + cols + ")";
     };
 
     return Database;

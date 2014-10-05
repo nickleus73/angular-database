@@ -7,6 +7,7 @@ database.factory '$database', Array ->
         req: null
 
         order_command: [
+            'CREATE',
             'INSERT',
             'UPDATE',
             'SELECT',
@@ -22,8 +23,16 @@ database.factory '$database', Array ->
             @adapter = adapter
             return
 
-        createTable: ->
-            return
+        createTable: (table, cols) ->
+            if typeof table is 'undefined' or typeof cols is 'undefined'
+                return
+
+            @sql['CREATE'] = {
+                'TABLE': table,
+                'COLS': cols
+            }
+
+            @
 
         select: (param) ->
             if typeof param is 'undefined'
@@ -103,6 +112,7 @@ database.factory '$database', Array ->
                     when 'WHERE' then @_where()
                     when 'INSERT' then @_insert()
                     when 'UPDATE' then @_update()
+                    when 'CREATE' then @_createTable()
 
             @req += ';'
 
@@ -156,6 +166,20 @@ database.factory '$database', Array ->
             params = update['PARAMS'].join ', '
 
             @req += "UPDATE `" + update['TABLE'] + "` SET " + params
+            return
+
+        _createTable: ->
+            if typeof @sql['CREATE'] is 'undefined'
+                return
+
+            @req = ''
+
+            create = @sql['CREATE']
+
+            cols = create['COLS'].join ', '
+
+            @req += "CREATE TABLE IF NOT EXISTS `" + create['TABLE'] + "` (" + cols + ")"
+
             return
 
 database.factory '$model', Array '$database', ->

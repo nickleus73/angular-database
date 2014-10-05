@@ -66,6 +66,29 @@ describe 'ngDatabase', ->
         expect(typeof $database.exec).toBe 'function'
         return
 
+    it "Should generate an sql request object to create table", ->
+        db = $database.createTable 'table', [
+            'col1',
+            'col2'
+        ]
+
+        expect($database.sql).toEqual {
+            'CREATE': {
+                'TABLE': 'table',
+                'COLS': [
+                    'col1',
+                    'col2'
+                ]
+            }
+        }
+        return
+
+    it "Should create a valid sql request to create a table", ->
+        $database.createTable('table', ['col1', 'col2']).exec()
+
+        expect($database.req).toEqual 'CREATE TABLE IF NOT EXISTS `table` (col1, col2);'
+        return
+
     it "Should be equal a select object", ->
         db = $database.select()
 
@@ -228,5 +251,9 @@ describe 'ngDatabase', ->
         $database.update('table', [{'field1':'value1'}, {'field2':'value2'}]).exec()
 
         expect($database.req).toEqual "UPDATE `table` SET field1 = 'value1', field2 = 'value2';"
+        return
+
+    it "Should try select sql with adapter", ->
+        $database.setAdapter(new SQLAdapter())
         return
     return
