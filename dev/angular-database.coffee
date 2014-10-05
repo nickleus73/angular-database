@@ -17,7 +17,7 @@ database.factory '$database', Array ->
             'OR WHERE'
         ]
 
-        adapter: {}
+        adapter: null
 
         setAdapter: (adapter) ->
             @adapter = adapter
@@ -114,7 +114,16 @@ database.factory '$database', Array ->
                     when 'UPDATE' then @_update()
                     when 'CREATE' then @_createTable()
 
-            @req += ';'
+            last_char = @req.substr -1
+
+            if last_char isnt ';'
+                @req += ';'
+
+            if @adapter isnt null
+                req = @req
+                @req = null
+                @sql = {}
+                return @adapter.exec req
 
             return
 

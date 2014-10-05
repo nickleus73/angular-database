@@ -254,6 +254,14 @@ describe 'ngDatabase', ->
         return
 
     it "Should try select sql with adapter", ->
-        $database.setAdapter(new SQLAdapter())
+        $database.setAdapter new SQLAdapter()
+
+        $database.createTable('test', ['col1', 'col2']).exec()
+
+        $database.insert('test', ['col1', 'col1'], ['value1', 'value2']).exec()
+
+        result = $database.select().from('test').exec()
+
+        expect(typeof result[0]).toBe 'object'
         return
     return

@@ -13,7 +13,7 @@ database.factory('$database', Array(function() {
 
     Database.prototype.order_command = ['CREATE', 'INSERT', 'UPDATE', 'SELECT', 'FROM', 'WHERE', 'AND WHERE', 'OR WHERE'];
 
-    Database.prototype.adapter = {};
+    Database.prototype.adapter = null;
 
     Database.prototype.setAdapter = function(adapter) {
       this.adapter = adapter;
@@ -102,7 +102,7 @@ database.factory('$database', Array(function() {
     };
 
     Database.prototype.exec = function() {
-      var order, _i, _len, _ref;
+      var last_char, order, req, _i, _len, _ref;
       this.req = '';
       _ref = this.order_command;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -127,7 +127,16 @@ database.factory('$database', Array(function() {
             this._createTable();
         }
       }
-      this.req += ';';
+      last_char = this.req.substr(-1);
+      if (last_char !== ';') {
+        this.req += ';';
+      }
+      if (this.adapter !== null) {
+        req = this.req;
+        this.req = null;
+        this.sql = {};
+        return this.adapter.exec(req);
+      }
     };
 
     Database.prototype._select = function() {

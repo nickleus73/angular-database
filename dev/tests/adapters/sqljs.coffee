@@ -31,10 +31,10 @@ describe 'ngDatabase adapter sql.js', ->
         expect(typeof adapter.getResult).toBe 'function'
         return
 
-    it "Should", ->
+    it "Should try the getResult method after have called prepare method", ->
         adapter.exec("CREATE TABLE  test (col1, col2);")
-            .exec ("INSERT INTO test VALUES (1, 2);")
-            .prepare ("SELECT * FROM test;")
+        adapter.exec ("INSERT INTO test VALUES (1, 2);")
+        adapter.prepare ("SELECT * FROM test;")
 
         expect(adapter.getResult()).toEqual [
             {col1: 1, col2: 2}

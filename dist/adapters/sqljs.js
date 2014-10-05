@@ -13,8 +13,7 @@ SQLAdapter = (function() {
   SQLAdapter.prototype.openDatabase = function() {};
 
   SQLAdapter.prototype.exec = function(sql) {
-    this.db.run(sql);
-    return this;
+    return this.db.exec(sql);
   };
 
   SQLAdapter.prototype.prepare = function(sql) {

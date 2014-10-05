@@ -11,8 +11,7 @@ class SQLAdapter
         return
 
     exec: (sql) ->
-        @db.run sql
-        @
+        @db.exec sql
 
     prepare: (sql) ->
         @stmt = @db.prepare sql
