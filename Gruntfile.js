@@ -8,7 +8,8 @@ module.exports = function(grunt) {
                     bare: true
                 },
                 files: {
-                    'dist/angular-database.js': 'dev/angular-database.coffee'
+                    'dist/angular-database.js': 'dev/angular-database.coffee',
+                    'dist/adapters/sqljs.js': 'dev/adapters/sqljs.coffee'
                 }
             },
             tests: {
@@ -16,7 +17,9 @@ module.exports = function(grunt) {
                     bare: true
                 },
                 files: {
-                    'tests/angular-database.js': 'dev/tests/angular-database.coffee'
+                    'tests/angular-database.js': 'dev/tests/angular-database.coffee',
+                    'tests/angular-database-model.js': 'dev/tests/angular-database-model.coffee',
+                    'tests/adapters/sqljs.js': 'dev/tests/adapters/sqljs.coffee'
                 }
             }
         },
@@ -27,7 +30,8 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'dist/angular-datbase.min.js': ['dist/angular-database.js']
+                    'dist/angular-datbase.min.js': ['dist/angular-database.js'],
+                    'dist/adapters/sqljs-min.js': ['dist/adapters/sqljs.js']
                 }
             }
         },
@@ -43,7 +47,9 @@ module.exports = function(grunt) {
                     resolvers: [{
                         files: [
                             'dev/*.coffee',
-                            'dev/tests/*.coffee'
+                            'dev/**/*.coffee',
+                            'dev/tests/*.coffee',
+                            'dev/tests/**/*.coffee'
                         ],
                         tasks: ['coffee', 'uglify']
                     }]
