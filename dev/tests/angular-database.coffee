@@ -1,6 +1,6 @@
 'use strict'
 
-describe 'SelfieTrip', ->
+describe 'ngDatabase', ->
     $database = null
 
     beforeEach ->
@@ -13,8 +13,16 @@ describe 'SelfieTrip', ->
             return
         return
 
-    it "Should be sql propertie", ->
+    it "Should have sql propertie", ->
         expect(typeof $database.sql).toBe 'object'
+        return
+
+    it "Should have adapter propertie", ->
+        expect(typeof $database.adapter).toBe 'object'
+        return
+
+    it "Should have set dababase adapter function", ->
+        expect(typeof $database.setAdapter).toBe 'function'
         return
 
     it "Should be sql propertie", ->
