@@ -13,6 +13,12 @@ database.factory('$database', Array(function() {
 
     Database.prototype.order_command = ['INSERT', 'UPDATE', 'SELECT', 'FROM', 'WHERE', 'AND WHERE', 'OR WHERE'];
 
+    Database.prototype.adapter = {};
+
+    Database.prototype.setAdapter = function(adapter) {
+      this.adapter = adapter;
+    };
+
     Database.prototype.createTable = function() {};
 
     Database.prototype.select = function(param) {
@@ -161,6 +167,22 @@ database.factory('$database', Array(function() {
     };
 
     return Database;
+
+  })());
+}));
+
+database.factory('$model', Array('$database', function() {
+  var Model;
+  return new (Model = (function() {
+    function Model() {}
+
+    Model.prototype.findAll = function() {};
+
+    Model.prototype.find = function() {};
+
+    Model.prototype.save = function() {};
+
+    return Model;
 
   })());
 }));
