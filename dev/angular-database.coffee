@@ -16,6 +16,12 @@ database.factory '$database', Array ->
             'OR WHERE'
         ]
 
+        adapter: {}
+
+        setAdapter: (adapter) ->
+            @adapter = adapter
+            return
+
         createTable: ->
             return
 
@@ -151,3 +157,11 @@ database.factory '$database', Array ->
 
             @req += "UPDATE `" + update['TABLE'] + "` SET " + params
             return
+
+database.factory '$model', Array '$database', ->
+    new class Model
+        findAll: ->
+
+        find: ->
+
+        save: ->
