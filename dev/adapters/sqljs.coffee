@@ -11,12 +11,10 @@ class SQLAdapter
         return
 
     exec: (sql) ->
-        console.log sql
         @db.run sql
         @
 
     prepare: (sql) ->
-        console.log sql
         @stmt = @db.prepare sql
         @
 

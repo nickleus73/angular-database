@@ -13,13 +13,11 @@ SQLAdapter = (function() {
   SQLAdapter.prototype.openDatabase = function() {};
 
   SQLAdapter.prototype.exec = function(sql) {
-    console.log(sql);
     this.db.run(sql);
     return this;
   };
 
   SQLAdapter.prototype.prepare = function(sql) {
-    console.log(sql);
     this.stmt = this.db.prepare(sql);
     return this;
   };

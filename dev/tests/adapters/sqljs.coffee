@@ -36,5 +36,7 @@ describe 'ngDatabase adapter sql.js', ->
             .exec ("INSERT INTO test VALUES (1, 2);")
             .prepare ("SELECT * FROM test;")
 
-        console.log adapter.getResult()
+        expect(adapter.getResult()).toEqual [
+            {col1: 1, col2: 2}
+        ]
         return
